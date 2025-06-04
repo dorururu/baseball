@@ -1,20 +1,21 @@
 public class Game {
 
+    public static final int NUMBER_LENGTH = 3;
     public String question;
 
     public GuessResult guess(String guessNumber) {
         assertIllegalArgument(guessNumber);
         if (guessNumber.equals(question)) {
-            return new GuessResult(true, 3, 0);
+            return new GuessResult(true, NUMBER_LENGTH, 0);
         } else {
-            return getResult(guessNumber);
+            return getGuessResult(guessNumber);
         }
     }
 
-    private GuessResult getResult(String guessNumber) {
+    private GuessResult getGuessResult(String guessNumber) {
         int strikes = 0;
         int ball = 0;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < NUMBER_LENGTH; i++) {
             if (guessNumber.charAt(i) == question.charAt(i)) {
                 strikes++;
             } else if (question.indexOf(guessNumber.charAt(i)) != -1) {
@@ -22,15 +23,14 @@ public class Game {
             }
         }
 
-        boolean isAnswer = strikes == 3;
-        return new GuessResult(isAnswer, strikes, ball);
+        return new GuessResult(false, strikes, ball);
     }
 
     private void assertIllegalArgument(String guessNumber) {
         if (guessNumber == null) {
             throw new IllegalArgumentException();
         }
-        if (guessNumber.length() != 3) {
+        if (guessNumber.length() != NUMBER_LENGTH) {
             throw new IllegalArgumentException();
         }
 
