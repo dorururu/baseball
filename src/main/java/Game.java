@@ -7,8 +7,23 @@ public class Game {
         if (guessNumber.equals(question)) {
             return new GuessResult(true, 3, 0);
         } else {
-            return new GuessResult(false, 0, 0);
+            return getResult(guessNumber);
         }
+    }
+
+    private GuessResult getResult(String guessNumber) {
+        int strikes = 0;
+        int ball = 0;
+        for (int i = 0; i < 3; i++) {
+            if (guessNumber.charAt(i) == question.charAt(i)) {
+                strikes++;
+            } else if (question.indexOf(guessNumber.charAt(i)) != -1) {
+                ball++;
+            }
+        }
+
+        boolean isAnswer = strikes == 3;
+        return new GuessResult(isAnswer, strikes, ball);
     }
 
     private void assertIllegalArgument(String guessNumber) {
